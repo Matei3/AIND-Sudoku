@@ -57,7 +57,8 @@ def naked_twins(values):
             for twin_value in twin_list_values:
                 for element in unit_non_twins:
                     for digit in twin_value: 
-                            values[element]=values[element].replace(digit,'') 
+                        assign_value(values, element, values[element].replace(digit,''))
+                             
     return values
 
 def cross(a, b):
@@ -110,7 +111,7 @@ def eliminate(values):
     boxes_solved=[box for box in values.keys() if len(values[box]) == 1]
     for box in boxes_solved:
         for peer in peers[box]:
-            values[peer]=values[peer].replace(values[box],'')
+            assign_value(values,peer, values[peer].replace(values[box],''))
     return values
 
 def only_choice(values):
@@ -129,8 +130,7 @@ def only_choice(values):
                 if digit in values[box]:
                    boxes.append(box)
             if  len(boxes)==1:
-                values[boxes[0]]=digit
-           
+                assign_value(values,boxes[0], digit)           
     return values
 
 def reduce_puzzle(values):
