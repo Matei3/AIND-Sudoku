@@ -36,29 +36,22 @@ def naked_twins(values):
 
     # Find all instances of naked twins
     for unit in unitlist:
-        twin_list=[]
-        twin_list_values=[]
-        two_element_list=[box for box in unit if len(values[box])==2]
+        temp_unit=unit.copy()
+        twin_list_values=""
         #print(two_element_list)
-        for element in two_element_list:
-            two_element_list.remove(element)
-            for element1 in two_element_list:
-                if  values[element]==values[element1]:
-                    two_element_list.remove(element1)
-                    twin_list.append([element,element1])
-                    twin_list_values.append(values[element])
+        for element in temp_unit:
+            if len(values[element])==2:
+                for element1 in temp_unit[temp_unit.index(element)+1:]:
+                    if  values[element]==values[element1]:
+                        temp_unit.remove(element)
+                        temp_unit.remove(element1)
+                        twin_list_values=twin_list_values+values[element] 
 	
         # Eliminate the naked twins as possibilities for their peers
-        if twin_list :
-            unit_non_twins=unit.copy()
-            for twins in twin_list:
-                for twin in twins:
-                    unit_non_twins.remove(twin)
-            for twin_value in twin_list_values:
-                for element in unit_non_twins:
-                    for digit in twin_value: 
-                        assign_value(values, element, values[element].replace(digit,''))
-                             
+        if len(temp_unit)!=len(unit) :
+            for element in temp_unit:
+                for digit in twin_list_values: 
+                    assign_value(values, element, values[element].replace(digit,''))                       
     return values
 
 def cross(a, b):
