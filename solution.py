@@ -48,7 +48,7 @@ def naked_twins(values):
                         twin_list_values=twin_list_values+values[element] 
 	
         # Eliminate the naked twins as possibilities for their peers
-        if len(temp_unit)!=len(unit) :
+        if len(twin_list_values)!=0:
             for element in temp_unit:
                 for digit in twin_list_values: 
                     assign_value(values, element, values[element].replace(digit,''))                       
@@ -101,10 +101,11 @@ def eliminate(values):
     Returns:
         Resulting Sudoku in dictionary form after eliminating values.
     """
-    boxes_solved=[box for box in values.keys() if len(values[box]) == 1]
-    for box in boxes_solved:
-        for peer in peers[box]:
-            assign_value(values,peer, values[peer].replace(values[box],''))
+    #boxes_solved=[box for box in values.keys() if len(values[box]) == 1]
+    for box in boxes:
+        if len(values[box])==1:
+            for peer in peers[box]:
+                assign_value(values,peer, values[peer].replace(values[box],''))
     return values
 
 def only_choice(values):
