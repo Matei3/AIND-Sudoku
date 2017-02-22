@@ -8,6 +8,7 @@ A: In order to solve the naked twins problem using constraint propagation we nee
    For this we apply the following steps on all the units in the unit list:
    
    Step 1. Find the possible twins:
+   
            We create a copy of the unit and go over it box by box.
            When we find a box with 2 possible solutions we check the remainder of the unit to see if we can find a box with same possible solutions.
            If we do find the second box with the same possible solutions, we eliminate the 2 boxes from the unit in order to narrow the searchspace and also not to get the pair twice, and add the possible solutions to a string that we will call twin_values.
@@ -15,6 +16,7 @@ A: In order to solve the naked twins problem using constraint propagation we nee
            If the if the twin_values string is empty ,we move to the next unit and apply Step1, if not we move to Step2.
    
    Step 2. Eliminate the solutions of the twins from all the other boxes:
+   
            Now the copy of our unit contains just the non-twin boxes while all the values for a twin are in the twin_value string.
            All we have to do now is to go through all the remanining boxes in the copy of the unit and eliminate the solutions that appear in the twin_value string.
            Next, we move to the next unit.
