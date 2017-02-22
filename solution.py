@@ -1,24 +1,42 @@
+#Initialize the assignments which will be used for visualization
 assignments = []
-rows = 'ABCDEFGHI'
-cols = '123456789'
-diagonal_units=[]
-def cross(a, b):
+#cross function,used to combine rows and columns in order to create the addresses for each box
+def cross(a, b):   
     return [s+t for s in a for t in b]
 
+#Initialize the strings with the rows and columns names
+rows = 'ABCDEFGHI'
+cols = '123456789'
+#Create the boxes
 boxes = cross(rows, cols)
-
+#Create the row units
 row_units = [cross(r, cols) for r in rows]
+#Create the column units
 column_units = [cross(rows, c) for c in cols]
+#Create the square units
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+#Create the diagonal units
+diagonal_units=[]
 diagonal_units.append([rows[i]+cols[i] for i in range(0,9)])
 diagonal_units.append([rows[i]+cols[8-i] for i in range(0,9)])
+#Put all the units in unitlist
 unitlist = row_units + column_units + square_units+diagonal_units
+#Create the units for each box
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
+#Create the peers for each box in each unit 
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
+
 def assign_value(values, box, value):
     """
     Please use this function to update your values dictionary!
     Assigns a value to a given box. If it updates the board record it.
+    
+    Args:
+        values: Sudoku grid in dictionary form
+        box: The box whose possible solution has to be changed 
+        value:The new list of possible solutions for the box
+    Returns:None
+        
     """
     values[box] = value
     if len(value) == 1:
@@ -27,6 +45,7 @@ def assign_value(values, box, value):
 
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
+   
     Args:
         values(dict): a dictionary of the form {'box_name': '123456789', ...}
 
@@ -38,7 +57,6 @@ def naked_twins(values):
     for unit in unitlist:
         temp_unit=unit.copy()
         twin_list_values=""
-        #print(two_element_list)
         for element in temp_unit:
             if len(values[element])==2:
                 for element1 in temp_unit[temp_unit.index(element)+1:]:
@@ -54,8 +72,6 @@ def naked_twins(values):
                     assign_value(values, element, values[element].replace(digit,''))                       
     return values
 
-def cross(a, b):
-    return [s+t for s in a for t in b]
 
 def grid_values(grid):
     """Convert grid string into {<box>: <value>} dict with '123456789' value for empties.
@@ -127,6 +143,16 @@ def only_choice(values):
     return values
 
 def reduce_puzzle(values):
+    """Apply all the solution reduction strategies
+
+    Go through all the boxes, and whenever there is a box with a single value,
+    eliminate this value from the set of values of all its peers.
+
+    Args:
+        values: Sudoku in dictionary form.
+    Returns:
+        Resulting Sudoku in dictionary form after applying all the solution reduction strategies.
+    """
     stalled = False
     while not stalled:
         # Check how many boxes have a determined value
@@ -149,7 +175,12 @@ def reduce_puzzle(values):
     return values
 
 def search(values):
-    "Using depth-first search and propagation, create a search tree and solve the sudoku."
+    """Using depth-first search and propagation, creates a search tree and solves the sudoku.
+    Args:
+        values: Sudoku in dictionary form.
+    Returns:
+        The dictionary representation of the final sudoku grid. False if no solution exists.
+    """
     # First, reduce the puzzle using the previous function
     values=reduce_puzzle(values)
     
