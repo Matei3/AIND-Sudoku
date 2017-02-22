@@ -72,7 +72,35 @@ def naked_twins(values):
                     assign_value(values, element, values[element].replace(digit,''))                       
     return values
 
+def hidden_twins(values):
+    """Eliminate values using the hidden twins strategy.
+   
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
 
+    Returns:
+        the values dictionary with the hidden twins reduced
+    """
+    for unit in unitlist:
+        for box in unit:
+            if len(box)>=2:
+                for box1 in unit[unit.index(box)+1:]:
+                    #Find another box with 2 values in common
+                    values_intersection=""
+                    for digit in values[box]:
+                        if digit in values[box1]:
+                            values_intersection+=digit
+                    temp_unit=unit.copy()
+                    temp_unit.remove(box)
+                    temp_unit.remove(box1)
+                    for non_twin in temp_unit:
+                    	for digit in values_intersection:
+                    	    if digit in values[non_twin]:
+                    	        values_intersection=values_intersection.replace(digit,'')   
+                    if len(values_intersection)==2:
+                        assign_value(values, box, values_intersection)
+                        assign_value(values, box1,values_intersection)
+    return values
 def grid_values(grid):
     """Convert grid string into {<box>: <value>} dict with '123456789' value for empties.
 
@@ -161,6 +189,8 @@ def reduce_puzzle(values):
         values=eliminate(values)
         # Your code here: Use the Only Choice Strategy
         values=only_choice(values)
+        #Use the Hidden Twins strategy
+        hidden_twins(values)
         # Your code here: Use the Naked Twins Strategy
         values=naked_twins(values)
         # Check how many boxes have a determined value, to compare
