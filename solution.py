@@ -82,6 +82,7 @@ def hidden_twins(values):
     """
     for unit in unitlist:
         for box in unit:
+			#For each box in the unit we compare its solutions the possible solution of the remaining boxes and for each pair we create a string 
             if len(box)>=2:
                 for box1 in unit[unit.index(box)+1:]:
                     #Find another box with 2 values in common
@@ -92,10 +93,12 @@ def hidden_twins(values):
                     temp_unit=unit.copy()
                     temp_unit.remove(box)
                     temp_unit.remove(box1)
+                    # Eliminate solutions that appear in boxes other than our pair
                     for non_twin in temp_unit:
                     	for digit in values_intersection:
                     	    if digit in values[non_twin]:
                     	        values_intersection=values_intersection.replace(digit,'')   
+                    #If the remaining solutions are just 2 it means we found a pair of twins. We assign them the remaining solutions        
                     if len(values_intersection)==2:
                         assign_value(values, box, values_intersection)
                         assign_value(values, box1,values_intersection)
