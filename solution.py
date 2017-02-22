@@ -101,7 +101,6 @@ def eliminate(values):
     Returns:
         Resulting Sudoku in dictionary form after eliminating values.
     """
-    #boxes_solved=[box for box in values.keys() if len(values[box]) == 1]
     for box in boxes:
         if len(values[box])==1:
             for peer in peers[box]:
