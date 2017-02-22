@@ -6,6 +6,7 @@ Q: How do we use constraint propagation to solve the naked twins problem?
 A: In order to solve the naked twins problem using constraint propagation we need to first look for 'twins'. 
    They are boxes with the same 2 possible solutions in the same unit and then eliminate the  possible solutions for the twins from the possible solutions of all the other boxes in the unit.
    For this we apply the following steps on all the units in the unit list:
+   
    Step 1. Find the possible twins:
            We create a copy of the unit and go over it box by box.
            When we find a box with 2 possible solutions we check the remainder of the unit to see if we can find a box with same possible solutions.
