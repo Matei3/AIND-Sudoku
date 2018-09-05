@@ -1,6 +1,10 @@
 # Artificial Intelligence Nanodegree
 ## Introductory Project: Diagonal Sudoku Solver
-In this project I have developed an agent which can solve a Sudoku puzzle using constraint propagation. The basic implementation of the project required the use of one strategy, **Naked twins** and to impose diagoanl constraints, but I have further implemented 2 more strategies: **Only Choice** and **Hidden Twins**. Below are 2 questions that were asked to check the student's understanding of the solutions they provided.
+In this project I have developed an agent which can solve a Sudoku puzzle using constraint propagation. 
+
+The basic implementation of the project required the use of one strategy, **Naked twins** and to impose diagoanl constraints, but I have further implemented 2 more strategies: **Only Choice** and **Hidden Twins**. 
+
+Below are 2 questions that were asked to check the student's understanding of the solutions they provided.
 
 
 # Question 1 (Naked Twins)
